@@ -1,0 +1,82 @@
+// prisma/usuarios-perfil/schema.prisma:
+generator client {
+    provider     = "prisma-client"
+    output       = "../../generated/prisma/usuarios-perfil"
+    moduleFormat = "cjs"
+}
+
+datasource db {
+    provider = "postgresql"
+}
+
+enum Genero {
+    MASCULINO
+    FEMENINO
+}
+
+model Usuario {
+    idUsuario          Int      @id @default(autoincrement())
+    nombre             String
+    edad               Int
+    biografia          String?
+    peso               Float?
+    altura             Float?
+    nacionalidad       String?
+    genero             Genero
+    ciudad             String?
+    pais               String?
+    numero             String?
+    correo             String   @unique
+    signoZodiacal      String?
+    queBusca           String?
+    ubicacion          String?
+    hobbie             String?
+    profesion          String?
+    fechaCreacion      DateTime @default(now())
+    fechaActualizacion DateTime @updatedAt
+
+    fotos           FotoUsuario[]
+    musicasUsuario  MusicaUsuario[]
+    estadoActividad EstadoActividad?
+}
+
+model FotoUsuario {
+    idFoto      Int     @id @default(autoincrement())
+    idUsuario   Int
+    urlFoto     String
+    descripcion String?
+
+    usuario Usuario @relation(fields: [idUsuario], references: [idUsuario], onDelete: Cascade)
+}
+
+model Musica {
+    idMusica      Int      @id @default(autoincrement())
+    titulo        String
+    artista       String?
+    album         String?
+    enlaceSpotify String?
+    fechaCreacion DateTime @default(now())
+
+    usuariosMusica MusicaUsuario[]
+}
+
+model MusicaUsuario {
+    idMusicaUsuario Int @id @default(autoincrement())
+    idUsuario       Int
+    idMusica        Int
+
+    usuario Usuario @relation(fields: [idUsuario], references: [idUsuario], onDelete: Cascade)
+    musica  Musica  @relation(fields: [idMusica], references: [idMusica], onDelete: Cascade)
+
+    @@unique([idUsuario, idMusica])
+}
+
+model EstadoActividad {
+    idEstadoActividad Int       @id @default(autoincrement())
+    idUsuario         Int       @unique
+    estaActivo        Boolean   @default(false)
+    enLive            Boolean   @default(false)
+    ultimaConexion    DateTime?
+
+    usuario Usuario @relation(fields: [idUsuario], references: [idUsuario], onDelete: Cascade)
+}

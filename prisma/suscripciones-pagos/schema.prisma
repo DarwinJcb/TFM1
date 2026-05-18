@@ -1,0 +1,56 @@
+// prisma/suscripciones-pagos/schema.prisma:
+generator client {
+    provider     = "prisma-client"
+    output       = "../../generated/prisma/suscripciones-pagos"
+    moduleFormat = "cjs"
+}
+
+datasource db {
+    provider = "postgresql"
+}
+
+enum TipoSuscripcion {
+    BRONCE
+    GOLD
+    PREMIUM
+    PLATINO
+}
+
+enum EstadoDonacion {
+    PENDIENTE
+    COMPLETADA
+    RECHAZADA
+}
+
+model PlanSuscripcion {
+    idPlanSuscripcion  Int             @id @default(autoincrement())
+    tipo               TipoSuscripcion @unique
+    valor              Decimal         @db.Decimal(10, 2)
+    beneficios         String?
+    restricciones      String?
+    mensajesIlimitados Boolean         @default(false)
+    fechaCreacion      DateTime        @default(now())
+
+    usuariosSuscritos SuscripcionUsuario[]
+}
+
+model SuscripcionUsuario {
+    idSuscripcionUsuario Int       @id @default(autoincrement())
+    idUsuario            Int       @unique
+    idPlanSuscripcion    Int
+    fechaInicio          DateTime  @default(now())
+    fechaFin             DateTime?
+    activa               Boolean   @default(true)
+
+    planSuscripcion PlanSuscripcion @relation(fields: [idPlanSuscripcion], references: [idPlanSuscripcion], onDelete: Restrict)
+}
+
+model Donacion {
+    idDonacion        Int            @id @default(autoincrement())
+    idUsuarioEmisor   Int
+    idUsuarioReceptor Int
+    monto             Decimal        @db.Decimal(10, 2)
+    mensaje           String?
+    fechaCreacion     DateTime       @default(now())
+    estadoDonacion    EstadoDonacion @default(PENDIENTE)
+}
