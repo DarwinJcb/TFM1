@@ -1,0 +1,155 @@
+INSERT INTO "PlanSuscripcion" ("tipo", "valor", "beneficios", "restricciones", "mensajesIlimitados", "fechaCreacion")
+VALUES
+('BRONCE', 9.99, 'Beneficios básicos', 'Restricciones básicas', false, NOW()),
+('GOLD', 19.99, 'Beneficios gold', 'Restricciones gold', true, NOW()),
+('PREMIUM', 29.99, 'Beneficios premium', 'Restricciones premium', true, NOW()),
+('PLATINO', 39.99, 'Beneficios platino', 'Restricciones platino', true, NOW());
+
+
+
+SELECT * FROM "PlanSuscripcion";
+
+POST /usuario (Usuario 1):
+{
+  "nombre": "Darwin",
+  "edad": 22,
+  "biografia": "Estudiante de desarrollo de software",
+  "peso": 70.5,
+  "altura": 1.75,
+  "nacionalidad": "Ecuatoriana",
+  "genero": "MASCULINO",
+  "ciudad": "Guayaquil",
+  "pais": "Ecuador",
+  "numero": "0999999999",
+  "correo": "darwin@example.com",
+  "signoZodiacal": "Leo",
+  "queBusca": "Amistad",
+  "ubicacion": "Centro",
+  "hobbie": "Programar",
+  "profesion": "Estudiante"
+}
+
+POST /usuario (Usuario 2):
+{
+  "nombre": "Ana",
+  "edad": 21,
+  "biografia": "Me gusta la música",
+  "peso": 55.2,
+  "altura": 1.65,
+  "nacionalidad": "Ecuatoriana",
+  "genero": "FEMENINO",
+  "ciudad": "Quito",
+  "pais": "Ecuador",
+  "numero": "0988888888",
+  "correo": "ana@example.com",
+  "signoZodiacal": "Piscis",
+  "queBusca": "Relación",
+  "ubicacion": "Norte",
+  "hobbie": "Leer",
+  "profesion": "Estudiante"
+}
+
+
+POST /foto-usuario:
+{
+  "idUsuario": 1,
+  "urlFoto": "https://example.com/foto1.jpg",
+  "descripcion": "Foto principal del perfil"
+}
+
+
+
+POST /suscripcion: (Este sirve para añadir una suscripcion para uno de los usuarios)
+{
+  "idUsuario": 1,
+  "urlFoto": "https://example.com/foto1.jpg",
+  "descripcion": "Foto principal del perfil"
+}
+
+
+POST /musica:
+{
+  "idUsuario": 1,
+  "titulo": "Blinding Lights",
+  "artista": "The Weeknd",
+  "album": "After Hours"
+}
+
+POST /configuracion-comunicacion:
+{
+  "idUsuario": 1,
+  "permiteMensajes": true,
+  "requiereMatchParaChatear": true
+}
+
+POST /estado-actividad:
+{
+  "idUsuario": 1,
+  "estaActivo": true,
+  "enLive": true,
+  "ultimaConexion": "2026-04-21T20:00:00.000Z"
+}
+
+
+POST /restriccion-usuario:
+{
+  "idUsuario": 1,
+  "descripcion": "No puede recibir más mensajes por el momento",
+  "activa": true
+}
+
+POST /interaccion: (numero 1):
+{
+  "idUsuarioEmisor": 1,
+  "idUsuarioReceptor": 2,
+  "tipoInteraccion": "LIKE"
+}
+
+POST /interaccion: (numero 2):
+{
+  "idUsuarioEmisor": 2,
+  "idUsuarioReceptor": 1,
+  "tipoInteraccion": "LIKE"
+}
+
+POST /match:
+{
+  "idUsuarioUno": 1,
+  "idUsuarioDos": 2,
+  "activo": true
+}
+
+POST /chat:
+{
+  "idUsuarioUno": 1,
+  "idUsuarioDos": 2
+}
+
+POST /mensaje:
+{
+  "idChat": 1,
+  "idRemitente": 1,
+  "contenido": "Hola Ana, ¿cómo estás?"
+}
+
+POST /donacion:
+{
+  "idUsuarioEmisor": 1,
+  "idUsuarioReceptor": 2,
+  "monto": 10,
+  "mensaje": "Gracias por compartir tu música",
+  "estadoDonacion": "PENDIENTE"
+}
+
+POST /reporte:
+{
+  "idUsuarioReportador": 1,
+  "idUsuarioReportado": 2,
+  "descripcion": "Contenido no deseado"
+}
+
+POST /bloqueo:
+{
+  "idUsuarioBloqueador": 1,
+  "idUsuarioBloqueado": 2
+}
