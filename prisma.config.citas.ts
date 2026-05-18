@@ -3,9 +3,9 @@ import "dotenv/config";
 import { defineConfig } from "prisma/config";
 
 export default defineConfig({
-    schema: "prisma/citas-comunicacion/schema.prisma",
+    schema: "prisma_bdtfm2/citas-comunicacion.prisma",
     migrations: {
-        path: "prisma/citas-comunicacion/migrations",
+        path: "prisma_bdtfm2/migrations",
     },
     datasource: {
         url: process.env["DATABASE_URL_CITAS_COMUNICACION"],

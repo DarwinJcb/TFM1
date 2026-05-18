@@ -1,256 +1,256 @@
 // prisma/schema.prisma:
 generator client {
-  provider     = "prisma-client"
-  output       = "../generated/prisma"
-  moduleFormat = "cjs"
+    provider     = "prisma-client"
+    output       = "../generated/prisma"
+    moduleFormat = "cjs"
 }
 
 datasource db {
-  provider = "postgresql"
+    provider = "postgresql"
 }
 
 enum Genero {
-  MASCULINO
-  FEMENINO
+    MASCULINO
+    FEMENINO
 }
 
 enum TipoSuscripcion {
-  BRONCE
-  GOLD
-  PREMIUM
-  PLATINO
+    BRONCE
+    GOLD
+    PREMIUM
+    PLATINO
 }
 
 enum TipoInteraccion {
-  LIKE
-  NOLIKE
-  SUPERLIKE
+    LIKE
+    NOLIKE
+    SUPERLIKE
 }
 
 enum EstadoDonacion {
-  PENDIENTE
-  COMPLETADA
-  RECHAZADA
+    PENDIENTE
+    COMPLETADA
+    RECHAZADA
 }
 
 model Usuario {
-  idUsuario          Int      @id @default(autoincrement())
-  nombre             String
-  edad               Int
-  biografia          String?
-  peso               Float?
-  altura             Float?
-  nacionalidad       String?
-  genero             Genero
-  ciudad             String?
-  pais               String?
-  numero             String?
-  correo             String   @unique
-  signoZodiacal      String?
-  queBusca           String?
-  ubicacion          String?
-  hobbie             String?
-  profesion          String?
-  fechaCreacion      DateTime @default(now())
-  fechaActualizacion DateTime @updatedAt
+    idUsuario          Int      @id @default(autoincrement())
+    nombre             String
+    edad               Int
+    biografia          String?
+    peso               Float?
+    altura             Float?
+    nacionalidad       String?
+    genero             Genero
+    ciudad             String?
+    pais               String?
+    numero             String?
+    correo             String   @unique
+    signoZodiacal      String?
+    queBusca           String?
+    ubicacion          String?
+    hobbie             String?
+    profesion          String?
+    fechaCreacion      DateTime @default(now())
+    fechaActualizacion DateTime @updatedAt
 
-  fotos                     FotoUsuario[]
-  suscripcion               SuscripcionUsuario?
-  musicasUsuario            MusicaUsuario[]
-  configuracionComunicacion ConfiguracionComunicacion?
-  estadoActividad           EstadoActividad?
-  restricciones             RestriccionUsuario[]
+    fotos                     FotoUsuario[]
+    suscripcion               SuscripcionUsuario?
+    musicasUsuario            MusicaUsuario[]
+    configuracionComunicacion ConfiguracionComunicacion?
+    estadoActividad           EstadoActividad?
+    restricciones             RestriccionUsuario[]
 
-  interaccionesEmitidas  Interaccion[] @relation("InteraccionesEmitidas")
-  interaccionesRecibidas Interaccion[] @relation("InteraccionesRecibidas")
+    interaccionesEmitidas  Interaccion[] @relation("InteraccionesEmitidas")
+    interaccionesRecibidas Interaccion[] @relation("InteraccionesRecibidas")
 
-  matchesComoUsuarioUno Match[] @relation("MatchUsuarioUno")
-  matchesComoUsuarioDos Match[] @relation("MatchUsuarioDos")
+    matchesComoUsuarioUno Match[] @relation("MatchUsuarioUno")
+    matchesComoUsuarioDos Match[] @relation("MatchUsuarioDos")
 
-  chatsComoUsuarioUno Chat[] @relation("ChatUsuarioUno")
-  chatsComoUsuarioDos Chat[] @relation("ChatUsuarioDos")
+    chatsComoUsuarioUno Chat[] @relation("ChatUsuarioUno")
+    chatsComoUsuarioDos Chat[] @relation("ChatUsuarioDos")
 
-  mensajesEnviados Mensaje[] @relation("MensajeRemitente")
+    mensajesEnviados Mensaje[] @relation("MensajeRemitente")
 
-  bloqueosHechos    Bloqueo[] @relation("Bloqueador")
-  bloqueosRecibidos Bloqueo[] @relation("Bloqueado")
+    bloqueosHechos    Bloqueo[] @relation("Bloqueador")
+    bloqueosRecibidos Bloqueo[] @relation("Bloqueado")
 
-  reportesHechos    Reporte[] @relation("Reportador")
-  reportesRecibidos Reporte[] @relation("Reportado")
+    reportesHechos    Reporte[] @relation("Reportador")
+    reportesRecibidos Reporte[] @relation("Reportado")
 
-  donacionesEnviadas  Donacion[] @relation("DonacionEmisor")
-  donacionesRecibidas Donacion[] @relation("DonacionReceptor")
+    donacionesEnviadas  Donacion[] @relation("DonacionEmisor")
+    donacionesRecibidas Donacion[] @relation("DonacionReceptor")
 }
 
 model FotoUsuario {
-  idFoto      Int     @id @default(autoincrement())
-  idUsuario   Int
-  urlFoto     String
-  descripcion String?
+    idFoto      Int     @id @default(autoincrement())
+    idUsuario   Int
+    urlFoto     String
+    descripcion String?
 
-  usuario Usuario @relation(fields: [idUsuario], references: [idUsuario], onDelete: Cascade)
+    usuario Usuario @relation(fields: [idUsuario], references: [idUsuario], onDelete: Cascade)
 }
 
 model PlanSuscripcion {
-  idPlanSuscripcion  Int             @id @default(autoincrement())
-  tipo               TipoSuscripcion @unique
-  valor              Decimal         @db.Decimal(10, 2)
-  beneficios         String?
-  restricciones      String?
-  mensajesIlimitados Boolean         @default(false)
-  fechaCreacion      DateTime        @default(now())
+    idPlanSuscripcion  Int             @id @default(autoincrement())
+    tipo               TipoSuscripcion @unique
+    valor              Decimal         @db.Decimal(10, 2)
+    beneficios         String?
+    restricciones      String?
+    mensajesIlimitados Boolean         @default(false)
+    fechaCreacion      DateTime        @default(now())
 
-  usuariosSuscritos SuscripcionUsuario[]
+    usuariosSuscritos SuscripcionUsuario[]
 }
 
 model SuscripcionUsuario {
-  idSuscripcionUsuario Int       @id @default(autoincrement())
-  idUsuario            Int       @unique
-  idPlanSuscripcion    Int
-  fechaInicio          DateTime  @default(now())
-  fechaFin             DateTime?
-  activa               Boolean   @default(true)
+    idSuscripcionUsuario Int       @id @default(autoincrement())
+    idUsuario            Int       @unique
+    idPlanSuscripcion    Int
+    fechaInicio          DateTime  @default(now())
+    fechaFin             DateTime?
+    activa               Boolean   @default(true)
 
-  usuario         Usuario         @relation(fields: [idUsuario], references: [idUsuario], onDelete: Cascade)
-  planSuscripcion PlanSuscripcion @relation(fields: [idPlanSuscripcion], references: [idPlanSuscripcion], onDelete: Restrict)
+    usuario         Usuario         @relation(fields: [idUsuario], references: [idUsuario], onDelete: Cascade)
+    planSuscripcion PlanSuscripcion @relation(fields: [idPlanSuscripcion], references: [idPlanSuscripcion], onDelete: Restrict)
 }
 
 model Musica {
-  idMusica      Int      @id @default(autoincrement())
-  titulo        String
-  artista       String?
-  album         String?
-  enlaceSpotify String?
-  fechaCreacion DateTime @default(now())
+    idMusica      Int      @id @default(autoincrement())
+    titulo        String
+    artista       String?
+    album         String?
+    enlaceSpotify String?
+    fechaCreacion DateTime @default(now())
 
-  usuariosMusica MusicaUsuario[]
+    usuariosMusica MusicaUsuario[]
 }
 
 model MusicaUsuario {
-  idMusicaUsuario Int @id @default(autoincrement())
-  idUsuario       Int
-  idMusica        Int
+    idMusicaUsuario Int @id @default(autoincrement())
+    idUsuario       Int
+    idMusica        Int
 
-  usuario Usuario @relation(fields: [idUsuario], references: [idUsuario], onDelete: Cascade)
-  musica  Musica  @relation(fields: [idMusica], references: [idMusica], onDelete: Cascade)
+    usuario Usuario @relation(fields: [idUsuario], references: [idUsuario], onDelete: Cascade)
+    musica  Musica  @relation(fields: [idMusica], references: [idMusica], onDelete: Cascade)
 
-  @@unique([idUsuario, idMusica])
+    @@unique([idUsuario, idMusica])
 }
 
 model Interaccion {
-  idInteraccion     Int             @id @default(autoincrement())
-  idUsuarioEmisor   Int
-  idUsuarioReceptor Int
-  tipoInteraccion   TipoInteraccion
-  fechaCreacion     DateTime        @default(now())
+    idInteraccion     Int             @id @default(autoincrement())
+    idUsuarioEmisor   Int
+    idUsuarioReceptor Int
+    tipoInteraccion   TipoInteraccion
+    fechaCreacion     DateTime        @default(now())
 
-  usuarioEmisor   Usuario @relation("InteraccionesEmitidas", fields: [idUsuarioEmisor], references: [idUsuario], onDelete: Restrict)
-  usuarioReceptor Usuario @relation("InteraccionesRecibidas", fields: [idUsuarioReceptor], references: [idUsuario], onDelete: Restrict)
+    usuarioEmisor   Usuario @relation("InteraccionesEmitidas", fields: [idUsuarioEmisor], references: [idUsuario], onDelete: Restrict)
+    usuarioReceptor Usuario @relation("InteraccionesRecibidas", fields: [idUsuarioReceptor], references: [idUsuario], onDelete: Restrict)
 
-  @@unique([idUsuarioEmisor, idUsuarioReceptor])
+    @@unique([idUsuarioEmisor, idUsuarioReceptor])
 }
 
 model Reporte {
-  idReporte           Int      @id @default(autoincrement())
-  idUsuarioReportador Int
-  idUsuarioReportado  Int
-  descripcion         String?
-  fechaCreacion       DateTime @default(now())
+    idReporte           Int      @id @default(autoincrement())
+    idUsuarioReportador Int
+    idUsuarioReportado  Int
+    descripcion         String?
+    fechaCreacion       DateTime @default(now())
 
-  usuarioReportador Usuario @relation("Reportador", fields: [idUsuarioReportador], references: [idUsuario], onDelete: Restrict)
-  usuarioReportado  Usuario @relation("Reportado", fields: [idUsuarioReportado], references: [idUsuario], onDelete: Restrict)
+    usuarioReportador Usuario @relation("Reportador", fields: [idUsuarioReportador], references: [idUsuario], onDelete: Restrict)
+    usuarioReportado  Usuario @relation("Reportado", fields: [idUsuarioReportado], references: [idUsuario], onDelete: Restrict)
 }
 
 model Bloqueo {
-  idBloqueo           Int      @id @default(autoincrement())
-  idUsuarioBloqueador Int
-  idUsuarioBloqueado  Int
-  fechaCreacion       DateTime @default(now())
+    idBloqueo           Int      @id @default(autoincrement())
+    idUsuarioBloqueador Int
+    idUsuarioBloqueado  Int
+    fechaCreacion       DateTime @default(now())
 
-  usuarioBloqueador Usuario @relation("Bloqueador", fields: [idUsuarioBloqueador], references: [idUsuario], onDelete: Restrict)
-  usuarioBloqueado  Usuario @relation("Bloqueado", fields: [idUsuarioBloqueado], references: [idUsuario], onDelete: Restrict)
+    usuarioBloqueador Usuario @relation("Bloqueador", fields: [idUsuarioBloqueador], references: [idUsuario], onDelete: Restrict)
+    usuarioBloqueado  Usuario @relation("Bloqueado", fields: [idUsuarioBloqueado], references: [idUsuario], onDelete: Restrict)
 
-  @@unique([idUsuarioBloqueador, idUsuarioBloqueado])
+    @@unique([idUsuarioBloqueador, idUsuarioBloqueado])
 }
 
 model Match {
-  idMatch       Int      @id @default(autoincrement())
-  idUsuarioUno  Int
-  idUsuarioDos  Int
-  fechaCreacion DateTime @default(now())
-  activo        Boolean  @default(true)
+    idMatch       Int      @id @default(autoincrement())
+    idUsuarioUno  Int
+    idUsuarioDos  Int
+    fechaCreacion DateTime @default(now())
+    activo        Boolean  @default(true)
 
-  usuarioUno Usuario @relation("MatchUsuarioUno", fields: [idUsuarioUno], references: [idUsuario], onDelete: Restrict)
-  usuarioDos Usuario @relation("MatchUsuarioDos", fields: [idUsuarioDos], references: [idUsuario], onDelete: Restrict)
+    usuarioUno Usuario @relation("MatchUsuarioUno", fields: [idUsuarioUno], references: [idUsuario], onDelete: Restrict)
+    usuarioDos Usuario @relation("MatchUsuarioDos", fields: [idUsuarioDos], references: [idUsuario], onDelete: Restrict)
 
-  @@unique([idUsuarioUno, idUsuarioDos])
+    @@unique([idUsuarioUno, idUsuarioDos])
 }
 
 model Chat {
-  idChat        Int      @id @default(autoincrement())
-  idUsuarioUno  Int
-  idUsuarioDos  Int
-  fechaCreacion DateTime @default(now())
+    idChat        Int      @id @default(autoincrement())
+    idUsuarioUno  Int
+    idUsuarioDos  Int
+    fechaCreacion DateTime @default(now())
 
-  usuarioUno Usuario   @relation("ChatUsuarioUno", fields: [idUsuarioUno], references: [idUsuario], onDelete: Restrict)
-  usuarioDos Usuario   @relation("ChatUsuarioDos", fields: [idUsuarioDos], references: [idUsuario], onDelete: Restrict)
-  mensajes   Mensaje[]
+    usuarioUno Usuario   @relation("ChatUsuarioUno", fields: [idUsuarioUno], references: [idUsuario], onDelete: Restrict)
+    usuarioDos Usuario   @relation("ChatUsuarioDos", fields: [idUsuarioDos], references: [idUsuario], onDelete: Restrict)
+    mensajes   Mensaje[]
 
-  @@unique([idUsuarioUno, idUsuarioDos])
+    @@unique([idUsuarioUno, idUsuarioDos])
 }
 
 model Mensaje {
-  idMensaje     Int      @id @default(autoincrement())
-  idChat        Int
-  idRemitente   Int
-  contenido     String
-  fechaCreacion DateTime @default(now())
-  leido         Boolean  @default(false)
+    idMensaje     Int      @id @default(autoincrement())
+    idChat        Int
+    idRemitente   Int
+    contenido     String
+    fechaCreacion DateTime @default(now())
+    leido         Boolean  @default(false)
 
-  chat      Chat    @relation(fields: [idChat], references: [idChat], onDelete: Cascade)
-  remitente Usuario @relation("MensajeRemitente", fields: [idRemitente], references: [idUsuario], onDelete: Restrict)
+    chat      Chat    @relation(fields: [idChat], references: [idChat], onDelete: Cascade)
+    remitente Usuario @relation("MensajeRemitente", fields: [idRemitente], references: [idUsuario], onDelete: Restrict)
 
-  @@index([idChat])
+    @@index([idChat])
 }
 
 model ConfiguracionComunicacion {
-  idConfiguracionComunicacion Int     @id @default(autoincrement())
-  idUsuario                   Int     @unique
-  permiteMensajes             Boolean @default(true)
-  requiereMatchParaChatear    Boolean @default(true)
+    idConfiguracionComunicacion Int     @id @default(autoincrement())
+    idUsuario                   Int     @unique
+    permiteMensajes             Boolean @default(true)
+    requiereMatchParaChatear    Boolean @default(true)
 
-  usuario Usuario @relation(fields: [idUsuario], references: [idUsuario], onDelete: Cascade)
+    usuario Usuario @relation(fields: [idUsuario], references: [idUsuario], onDelete: Cascade)
 }
 
 model EstadoActividad {
-  idEstadoActividad Int       @id @default(autoincrement())
-  idUsuario         Int       @unique
-  estaActivo        Boolean   @default(false)
-  enLive            Boolean   @default(false)
-  ultimaConexion    DateTime?
+    idEstadoActividad Int       @id @default(autoincrement())
+    idUsuario         Int       @unique
+    estaActivo        Boolean   @default(false)
+    enLive            Boolean   @default(false)
+    ultimaConexion    DateTime?
 
-  usuario Usuario @relation(fields: [idUsuario], references: [idUsuario], onDelete: Cascade)
+    usuario Usuario @relation(fields: [idUsuario], references: [idUsuario], onDelete: Cascade)
 }
 
 model Donacion {
-  idDonacion        Int            @id @default(autoincrement())
-  idUsuarioEmisor   Int
-  idUsuarioReceptor Int
-  monto             Decimal        @db.Decimal(10, 2)
-  mensaje           String?
-  fechaCreacion     DateTime       @default(now())
-  estadoDonacion    EstadoDonacion @default(PENDIENTE)
+    idDonacion        Int            @id @default(autoincrement())
+    idUsuarioEmisor   Int
+    idUsuarioReceptor Int
+    monto             Decimal        @db.Decimal(10, 2)
+    mensaje           String?
+    fechaCreacion     DateTime       @default(now())
+    estadoDonacion    EstadoDonacion @default(PENDIENTE)
 
-  usuarioEmisor   Usuario @relation("DonacionEmisor", fields: [idUsuarioEmisor], references: [idUsuario], onDelete: Restrict)
-  usuarioReceptor Usuario @relation("DonacionReceptor", fields: [idUsuarioReceptor], references: [idUsuario], onDelete: Restrict)
+    usuarioEmisor   Usuario @relation("DonacionEmisor", fields: [idUsuarioEmisor], references: [idUsuario], onDelete: Restrict)
+    usuarioReceptor Usuario @relation("DonacionReceptor", fields: [idUsuarioReceptor], references: [idUsuario], onDelete: Restrict)
 }
 
 model RestriccionUsuario {
-  idRestriccion Int      @id @default(autoincrement())
-  idUsuario     Int
-  descripcion   String
-  activa        Boolean  @default(true)
-  fechaCreacion DateTime @default(now())
+    idRestriccion Int      @id @default(autoincrement())
+    idUsuario     Int
+    descripcion   String
+    activa        Boolean  @default(true)
+    fechaCreacion DateTime @default(now())
 
-  usuario Usuario @relation(fields: [idUsuario], references: [idUsuario], onDelete: Cascade)
+    usuario Usuario @relation(fields: [idUsuario], references: [idUsuario], onDelete: Cascade)
 }

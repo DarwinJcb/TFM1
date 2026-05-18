@@ -1,0 +1,92 @@
+// src/prisma_bdtfm2/citas-comunicacion.prisma:
+generator client {
+  provider     = "prisma-client"
+  output       = "../generated/prisma/citas-comunicacion"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum TipoInteraccion {
+  LIKE
+  NOLIKE
+  SUPERLIKE
+}
+
+model Interaccion {
+  idInteraccion     Int             @id @default(autoincrement())
+  idUsuarioEmisor   Int
+  idUsuarioReceptor Int
+  tipoInteraccion   TipoInteraccion
+  fechaCreacion     DateTime        @default(now())
+
+  @@unique([idUsuarioEmisor, idUsuarioReceptor])
+}
+
+model Match {
+  idMatch       Int      @id @default(autoincrement())
+  idUsuarioUno  Int
+  idUsuarioDos  Int
+  fechaCreacion DateTime @default(now())
+  activo        Boolean  @default(true)
+
+  @@unique([idUsuarioUno, idUsuarioDos])
+}
+
+model Chat {
+  idChat        Int      @id @default(autoincrement())
+  idUsuarioUno  Int
+  idUsuarioDos  Int
+  fechaCreacion DateTime @default(now())
+
+  mensajes Mensaje[]
+
+  @@unique([idUsuarioUno, idUsuarioDos])
+}
+
+model Mensaje {
+  idMensaje     Int      @id @default(autoincrement())
+  idChat        Int
+  idRemitente   Int
+  contenido     String
+  fechaCreacion DateTime @default(now())
+  leido         Boolean  @default(false)
+
+  chat Chat @relation(fields: [idChat], references: [idChat], onDelete: Cascade)
+
+  @@index([idChat])
+}
+
+model ConfiguracionComunicacion {
+  idConfiguracionComunicacion Int     @id @default(autoincrement())
+  idUsuario                   Int     @unique
+  permiteMensajes             Boolean @default(true)
+  requiereMatchParaChatear    Boolean @default(true)
+}
+
+model Bloqueo {
+  idBloqueo           Int      @id @default(autoincrement())
+  idUsuarioBloqueador Int
+  idUsuarioBloqueado  Int
+  fechaCreacion       DateTime @default(now())
+
+  @@unique([idUsuarioBloqueador, idUsuarioBloqueado])
+}
+
+model Reporte {
+  idReporte           Int      @id @default(autoincrement())
+  idUsuarioReportador Int
+  idUsuarioReportado  Int
+  descripcion         String?
+  fechaCreacion       DateTime @default(now())
+}
+
+model RestriccionUsuario {
+  idRestriccion Int      @id @default(autoincrement())
+  idUsuario     Int
+  descripcion   String
+  activa        Boolean  @default(true)
+  fechaCreacion DateTime @default(now())
+}
