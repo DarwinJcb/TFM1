@@ -27,6 +27,7 @@ model Usuario {
   pais               String?
   numero             String?
   correo             String   @unique
+  contrasena         String?
   signoZodiacal      String?
   queBusca           String?
   ubicacion          String?
@@ -34,7 +35,6 @@ model Usuario {
   profesion          String?
   fechaCreacion      DateTime @default(now())
   fechaActualizacion DateTime @updatedAt
-
   fotos           FotoUsuario[]
   musicasUsuario  MusicaUsuario[]
   estadoActividad EstadoActividad?
