@@ -18,10 +18,11 @@ import { FotoUsuarioModule } from './foto-usuario/infraestructura/foto-usuario.m
 import { DonacionModule } from './donacion/infraestructura/donacion.module';
 import { RestriccionUsuarioModule } from './restriccion-usuario/infraestructura/restriccion-usuario.module';
 import { AuthModule } from './auth/auth.module';
+import { PrismaUsuariosService } from './prisma/prisma-usuarios.service';
 
 @Module({
   imports: [UsuarioModule, PrismaModule, SuscripcionModule, InteraccionModule, MatchModule, ChatModule, MensajeModule, MusicaModule, ConfiguracionComunicacionModule, EstadoActividadModule, BloqueoModule, ReporteModule, FotoUsuarioModule, DonacionModule, RestriccionUsuarioModule, AuthModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, PrismaUsuariosService],
 })
 export class AppModule { }
