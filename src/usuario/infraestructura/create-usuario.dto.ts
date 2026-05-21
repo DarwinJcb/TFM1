@@ -13,6 +13,7 @@ export class CreateUsuarioDto {
     pais?: string;
     numero?: string;
     correo: string;
+    contrasena?: string;
     signoZodiacal?: string;
     queBusca?: string;
     ubicacion?: string;

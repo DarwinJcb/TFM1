@@ -14,6 +14,7 @@ export interface Usuario {
     pais?: string | null;
     numero?: string | null;
     correo: string;
+    contrasena?: string | null;
     signoZodiacal?: string | null;
     queBusca?: string | null;
     ubicacion?: string | null;
@@ -35,6 +36,7 @@ export interface CrearUsuario {
     pais?: string;
     numero?: string;
     correo: string;
+    contrasena?: string;
     signoZodiacal?: string;
     queBusca?: string;
     ubicacion?: string;
